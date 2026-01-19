@@ -4,9 +4,11 @@
   "description": "\"Opettajan tuntiesimerkkejä\"",
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "hytetesti.js",
   "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test": "moro"
   },
   "devDependencies": {
@@ -14,6 +16,10 @@
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.0.0",
+    "nodemon": "^3.1.11",
     "prettier": "3.7.4"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }
