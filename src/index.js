@@ -1,43 +1,35 @@
 import express from 'express';
-import {getItems} from ''
-import { getItembyId } from './items';
+import {deleteItemById, getItemById, getItems, postNewItem, putItemById} from './items.js';
 const hostname = '127.0.0.1';
 const app = express();
 const port = 3000;
 
-
-
+// parsitaan json data pyynnöstä ja lisätään request-objektiin
 app.use(express.json());
 
-app.use(express.static('public'));
+// tarjoillaan webbisivusto (front-end) palvelimen juuressa
+app.use('/', express.static('public'));
 
-// api root
+// API root
 app.get('/api', (req, res) => {
-  res.send('Welcome to my REST API!');
+  res.send('This is dummy items API!');
 });
 
-//get all items
-app.get('/items',);
+// Endpoints for 'items' resource
+// Get all items
+app.get('/api/items', getItems);
+// Get item based on id
+app.get('/api/items/:id', getItemById);
+// PUT route for items
+app.put('/api/items/:id', putItemById);
+// DELETE route for items
+app.delete('/api/items/:id', deleteItemById);
+// Add new item
+app.post('/api/items', postNewItem);
 
-//get item base on id
-app.get('/items(:id', getItembyId);
-
-//todo add put route for items
-app.put('items/:id', (req,res) => {
-  console.log('updating item id:', req.params.id);
-  const itemIndex = items.findIndex((item) => item.id == req.params.id)
-});
-//todo add delete route for items
-
-
-
-//add new item
-app.post('/items', postNewItem);
-
-
+//User resource endpoints
+app.get('')
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
-
-
