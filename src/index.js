@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 
 //enable CORS requests
-app.user(cors());
+app.use(cors());
 
 
 // parsitaan json data pyynnöstä ja lisätään request-objektiin
@@ -33,6 +33,7 @@ app.use('/api/items', itemRouter);
 
 //Users resource router for all /api/users routes
 app.use('/api/users', userRouter)
+
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
