@@ -1,5 +1,6 @@
 import express from 'express';
-import { deleteUserById, getUserById, getUsers, postLogin, postUser, putUserById } from '../controllers/user-controller.js';
+import { deleteUserById, getMe, getUserById, getUsers, postLogin, postUser, putUserById } from '../controllers/user-controller.js';
+import { authenticateToken } from '../middlewares/authentication.js';
 
 const userRouter = express.Router();
 
@@ -20,6 +21,8 @@ userRouter.route('/')
 
 //post user login
 userRouter.post('/api/users/login', postLogin);
+
+userRouter.get('/me', authenticateToken, getMe);
 
 
 export default userRouter;

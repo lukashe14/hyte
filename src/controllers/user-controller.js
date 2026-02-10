@@ -1,5 +1,12 @@
-import users from '../models/user-model.js';
+// HUOM: mokkidata poisettu modelista
+//import users from '../models/user-model.js';
 
+import jwt from 'jsonwebtoken';
+
+import { findUserByUsername } from "../models/user-model.js";
+
+
+//TDODO: refaktoroi tietokanafunktiolle
 const getUsers = (request, response)=> {
   // ÄLÄ IKINÄ lähetä salasanoja http vastauksessa
   for (let i=0; i<users.length; i++) {
@@ -32,14 +39,21 @@ const postUser = (pyynto, vastaus) => {
   vastaus.status(201).json({message: 'new user added', user_id: newId});
 };
 
-const postLogin = (req, res) => {
+// Tietokantaversio valmis
+const postLogin = async (req, res) => {
   const {username, password} = req.body;
   // haetaan käyttäjä-objekti käyttäjän nimen perusteella
-  const userFound = users.find(user => username === user.username);
-  if (userFound) {
-    if (userFound.password === password) {
-      delete userFound.password;
-      return res.json({message: 'login ok', user: userFound});
+  const user = await findUserByUsername(username);
+  //console.log('postLogin user form db', user)
+
+  if (user) {
+    if (user.password === password) {
+      delete user.password;
+      // generate and sign token using a secret and expriation time
+      const token = jwt.sign(user, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN
+    });
+      return res.json({message: 'login ok', user, token});
     }
     return res.status(403).json({error: 'invalid password'});
   }
@@ -79,4 +93,8 @@ const deleteUserById = (req, res) => {
   }
 };
 
-export {getUsers, postUser, postLogin, getUserById, putUserById, deleteUserById};
+const getMe = (req, res) => {
+  res.json({...req.user});
+};
+
+export {getUsers, postUser, postLogin, getUserById, putUserById, deleteUserById, getMe};
