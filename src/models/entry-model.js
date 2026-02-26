@@ -5,7 +5,17 @@ import promisePool from '../utils/database.js';
 const listAllEntries = async () => {
   try {
     const [rows] = await promisePool.query('SELECT * FROM DiaryEntries');
-    console.log('rows', rows);
+    return rows;
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
+};
+
+const listAllEntriesByUserId = async (id) => {
+  try {
+    const sql = 'SELECT * FROM DiaryEntries WHERE user_id = ?';
+    const [rows] = await promisePool.execute(sql, [id]);
     return rows;
   } catch (e) {
     console.error('error', e.message);
@@ -15,14 +25,13 @@ const listAllEntries = async () => {
 
 const findEntryById = async (id) => {
   try {
-
+    // prepared statement
     const [rows] = await promisePool.execute('SELECT * FROM DiaryEntries WHERE entry_id = ?', [id]);
 
-    //turvaton tapa, mahdollistaa sql injektiohaavoittuvuuden:
-    //const [rows] = await promisePool.query('SELECT * FROM DiaryEntries WHERE entry_id = ?' + id);
+    // turvaton tapa, mahdollistaa sql-injektiohaavoittuvuuden:
+    //const [rows] = await promisePool.query('SELECT * FROM DiaryEntries WHERE entry_id =' + id);
 
-
-    console.log('rows', rows);
+    //console.log('rows', rows);
     return rows[0];
   } catch (e) {
     console.error('error', e.message);
@@ -37,7 +46,7 @@ const addEntry = async (entry) => {
   const params = [user_id, entry_date, mood, weight, sleep_hours, notes];
   try {
     const result = await promisePool.execute(sql, params);
-    console.log('rows', result);
+    //console.log('insert result', result);
     return {entry_id: result[0].insertId};
   } catch (e) {
     console.error('error', e.message);
@@ -45,4 +54,11 @@ const addEntry = async (entry) => {
   }
 };
 
-export {listAllEntries, findEntryById, addEntry};
+const removeEntryById = async (entryId, userId) => {
+  const sql = 'DELETE from DiaryEntries WHERE entry_id = ? AND user_id = ?';
+  const [result] = await promisePool.execute(sql, [entryId, userId]);
+  //console.log('remove entry by id', result);
+  return result.affectedRows;
+};
+
+export {listAllEntries, findEntryById, addEntry, listAllEntriesByUserId, removeEntryById};

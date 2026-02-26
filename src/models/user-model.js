@@ -1,33 +1,37 @@
-import promisePool from "../utils/database.js";
+import promisePool from '../utils/database.js';
 
-//TODO: lisää modelit ja muokkaa kontrollerit reiteille:
-//GET /api/users - list all users
-//GET /api/users/:id - get user by id
-//POST /api/users - add a new user
 
-const GetUsers = async (users) => {
-  const sql = 'SELECT * FROM Users';
-  const [rows] = await promisePool.execute(sql, [users]);
-  return rows[0];
+// TODO: lisää modelit ja muokkaa kontrollerit reiteille:
+// GET /api/users/:id - get user by id
+
+// GET /api/users - list all users
+const listAllUsers = async () => {
+  const sql = 'SELECT username, created_at FROM Users';
+  const [rows] = await promisePool.query(sql);
+  return rows;
 };
 
-const GetUserById = async (users) => {
-  const sql = 'SELECT * FROM Users WHERE user_id = ?';
-  const [rows] = await promisePool.execute(sql, [users]);
-  return rows[0];
-};
-
-const addUser = async (users) => {
-  const sql = 'SELECT * FROM Users WHERE username = ?';
-  const [rows] = await promisePool.execute(sql, [users]);
-  return rows[0];
+// POST /api/users - add a new user
+const addUser = async (user) => {
+  const {username, password, email} = user;
+  const sql = `INSERT INTO Users (username, password, email)
+               VALUES (?, ?, ?)`;
+  const params = [username, password, email];
+  try {
+    const result = await promisePool.execute(sql, params);
+    //console.log('insert result', result);
+    return {user_id: result[0].insertId};
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
 };
 
 // Huom: virheenkäsittely puuttuu
-const findUserByUsername = async (Users) => {
-  const sql = 'INSERT INTO Users (user_id, username, password, email) VALUES(?,?,?,?) ';
-  const [rows] = await promisePool.execute(sql, [Users]);
+const findUserByUsername = async (username) => {
+  const sql = 'SELECT * FROM Users WHERE username = ?';
+  const [rows] = await promisePool.execute(sql, [username]);
   return rows[0];
 };
 
-export {GetUsers,GetUserById,addUser,findUserByUsername};
+export {findUserByUsername, addUser, listAllUsers};
