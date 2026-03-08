@@ -25,3 +25,8 @@ Kirjautumisnäkymä
 
 
 ![image alt](https://github.com/lukashe14/hyte/blob/validation/screenshots/Kirjautumisn%C3%A4kym%C3%A4.png)
+
+
+
+#Tiedossa olevat ongelmat
+DeleteUserById ei toimi
