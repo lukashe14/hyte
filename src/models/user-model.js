@@ -1,9 +1,6 @@
 import promisePool from '../utils/database.js';
 
 
-// TODO: lisää modelit ja muokkaa kontrollerit reiteille:
-// GET /api/users/:id - get user by id
-
 // GET /api/users - list all users
 const listAllUsers = async () => {
   const sql = 'SELECT username, created_at FROM Users';

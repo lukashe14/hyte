@@ -20,9 +20,5 @@ userRouter.post('/login', postLogin);
 userRouter.get('/me', authenticateToken, getMe);
 
 
-// TODO: get user by id
-// app.get('/api/users/:id');
-// TODO: put user by id
-// TODO: delete user by id
 
 export default userRouter;

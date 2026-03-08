@@ -2,13 +2,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import {addUser, findUserByUsername, listAllUsers, removeUserById} from '../models/user-model.js';
 
-// TODO: lisää tietokantafunktiot user modeliin
-// ja käytä niitä täällä
-
-// TODO: getUserById
-// TODO: putUserById
-// TODO: deleteUserById
-
 
 const getUsers = async (req, response) => {
   const users = await listAllUsers();
