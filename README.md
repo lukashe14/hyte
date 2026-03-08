@@ -9,10 +9,10 @@ Kotinäkymä
 ![image alt](https://github.com/lukashe14/hyte/blob/validation/screenshots/kotin%C3%A4kym%C3%A4.png)
 
 Päiväkirjanäkymä
-![image alt]()
+![image alt](https://github.com/lukashe14/hyte/blob/validation/screenshots/P%C3%A4iv%C3%A4kirjan%C3%A4kym%C3%A4.png)
 
 Bmi-laskuri näkymä
-![image alt]()
+![image alt](https://github.com/lukashe14/hyte/blob/validation/screenshots/bmin%C3%A4kym%C3%A4.png)
 
 Kirjautumisnäkymä
 ![image alt]()
