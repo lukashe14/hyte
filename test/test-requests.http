@@ -1,7 +1,7 @@
 # Test HTTP requests
 ### use with: REST Client extension
 @apiurl = http://localhost:3000/api
-@token = uruyhuywygrewrygwrygwrggruwgruwgyrgwurgw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNSwidXNlcm5hbWUiOiJMdWthczMiLCJlbWFpbCI6Ikx1a2FzM0BleGFtcGxlLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI2LTAzLTA4VDE0OjE2OjA3LjAwMFoiLCJ1c2VyX2xldmVsIjoicmVndWxhciIsImlhdCI6MTc3Mjk3OTM4MCwiZXhwIjoxNzczMDY1NzgwfQ.XRSFpi8W_XkyFGOzhEVvkTLnRyuJBJlS53XGbXdbA6g
 ### GET all items
 GET {{apiurl}}/items
 
@@ -38,9 +38,9 @@ POST {{apiurl}}/users
 Content-Type: application/json
 
 {
-  "username": "donald2",
-  "password": "duck",
-  "email": "donald2@example.com"
+  "username": "Lukas3",
+  "password": "lukas1234",
+  "email": "Lukas3@example.com"
 }
 
 ### Register new user FAIL (email missing)
@@ -48,7 +48,7 @@ POST {{apiurl}}/users
 Content-Type: application/json
 
 {
-  "username": "donald",
+  "username": "pekka2",
   "password": "duck"
 }
 
@@ -57,9 +57,13 @@ POST {{apiurl}}/users/login
 Content-Type: application/json
 
 {
-  "username": "donald2",
-  "password": "duck"
+  "username": "Lukas3",
+  "password": "lukas1234"
 }
+
+### Delete User By id
+DELETE {{apiurl}}/users/25
+Authorization: Bearer {{token}}
 
 ### Get user info by token
 GET {{apiurl}}/users/me
@@ -77,7 +81,7 @@ Authorization: Bearer {{token}}
 GET {{apiurl}}/entries/6
 
 ### Delete entry by id
-DELETE {{apiurl}}/entries/6
+DELETE {{apiurl}}/entries/15
 Authorization: Bearer {{token}}
 
 ### Post new entry
@@ -87,10 +91,10 @@ Authorization: Bearer {{token}}
 
 {
   "entry_date": "2026-02-04",
-  "mood": "really happy",
-  "weight": 66,
-  "sleep_hours": 5,
-  "notes": "normipäivä"
+  "mood": "iha jees",
+  "weight": 70,
+  "sleep_hours": 9,
+  "notes": "Reenipäivä (mallia yläkroppa)"
 }
 
 

@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import {addUser, findUserByUsername, listAllUsers} from '../models/user-model.js';
+import {addUser, findUserByUsername, listAllUsers, removeUserById} from '../models/user-model.js';
 
 // TODO: lisää tietokantafunktiot user modeliin
 // ja käytä niitä täällä
@@ -19,12 +19,11 @@ const getUsers = async (req, response) => {
 // Käyttäjän lisäys (rekisteröityminen)
 const postUser = async (pyynto, vastaus) => {
   const newUser = pyynto.body;
-
   // Uusilla käyttäjillä pitää olla kaikki vaaditut ominaisuudet tai palautetaan virhe
   // itse koodattu erittäin yksinkertainen syötteen validointi
-  //if (!(newUser.username && newUser.password && newUser.email)) {
-    //return vastaus.status(400).json({error: 'required fields missing'});
-  //}
+  if (!(newUser.username && newUser.password && newUser.email)) {
+    return vastaus.status(400).json({error: 'required fields missing'});
+  }
   // HUOM: ÄLÄ ikinä loggaa käyttäjätietoja ensimmäisten pakollisten testien jälkeen!!! (tietosuoja)
   //console.log('registering new user', newUser);
 
@@ -35,6 +34,16 @@ const postUser = async (pyynto, vastaus) => {
   newUser.password = hash;
   const newUserId = await addUser(newUser);
   vastaus.status(201).json({message: 'new user added', user_id: newUserId});
+};
+
+//yritystehdä deleteuserbyid
+const deleteUserById = async (req, res) => {
+  const affectedRows = await removeUserById(req.params.id, req.user.user_id);
+  if (affectedRows > 0) {
+    res.json({message: 'entry deleted'});
+  } else {
+    res.status(404).json({message: 'entry not found'});
+  }
 };
 
 // Tietokantaversio valmis
@@ -64,4 +73,4 @@ const getMe = (req, res) => {
   res.json(req.user);
 };
 
-export {getUsers, postUser, postLogin, getMe};
+export {getUsers, postUser, postLogin, getMe, deleteUserById};
